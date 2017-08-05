@@ -2,7 +2,7 @@
 	
 	To Do List Project
 	Authors:	Hasan Eren Keskin	@erenkeskin 
-				Burak Can Fazla		@burak_can_fazla
+			Burak Can Fazla		@burak_can_fazla
 
 	Date: 06.08.2017
 	Description: Yapmamýz gereken, yapmayý istediðimiz ancak unuttuðumuz þeyleri
