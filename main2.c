@@ -14,8 +14,10 @@
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
-
+ 
 #include <time.h>
+
+
 
 void baslik_degistir(char * baslik);
 void menu();
