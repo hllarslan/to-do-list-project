@@ -6,7 +6,7 @@
 
 	Date: 06.08.2017
 	Description: Yapmamýz gereken, yapmayý istediðimiz ancak unuttuðumuz þeyleri
-		not alabilebileceðimiz bir konsol uygulamasý.
+			not alabilebileceðimiz bir konsol uygulamasý.
 
 
 */
