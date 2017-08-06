@@ -28,6 +28,9 @@ void yapildi_isaretle(void);
 void degistir(void);
 void arama_yap(void);
 
+// Dosya Isimleri
+const char dosya_adi[100] = "yapilacak.txt";
+
 /* To Do List Projesi */
 int main(void) {
 
@@ -110,7 +113,7 @@ void ekle(void) {
 	baslik_degistir(baslik);
 	 
 	FILE * dosya;
-	dosya = fopen("C:/Users/Eren/Desktop/to-do-list-2/to-do-list-2/yapilacak.txt", "a");
+	dosya = fopen(dosya_adi, "a");
 		
 	fflush(stdin);
 		
@@ -182,11 +185,12 @@ void yapilacaklar(void){
 	char satir[50], gorev[50], tarih[10];
 	
 	FILE *dosya;
-	dosya = fopen("C:/Users/Eren/Desktop/to-do-list-2/to-do-list-2/yapilacak.txt", "r");
+	dosya = fopen(dosya_adi, "r");
 	
 	if(dosya == NULL)
 	{
-		printf("Dosya bulunamadi.!");	
+		printf("\n\nDosya bulunamadi.!\n\n");	
+		menu();
 	}
 	else
 	{
