@@ -14,9 +14,15 @@
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
- 
 #include <time.h>
 
+struct tarih
+{
+	int gun;
+	int ay;
+	int yil;
+	
+}bitis[100];
 
 
 void baslik_degistir(char * baslik);
@@ -72,6 +78,7 @@ void menu() {
 		case 3: sil(); break;
 		default: main(); break;	
 	}
+	
 
 }
 
@@ -85,15 +92,16 @@ void listele()
 
 	printf("1.Yapilacaklar\n");
 	printf("2.Bitenler\n");
-	printf("3.Gecikenler");
+	printf("3.Gecikenler\n");
+	printf("Lutfen yapmak istediginiz seceneginin numarasini giriniz\n");
 	scanf_s("%d", &numara);
-	
+	system("cls");
 	switch(numara)
 	{
 		case 1: yapilacaklar(); break;
 		case 2: bitenler(); break;
 		case 3: gecikenler(); break;
-		default: main(); break;
+		default: menu(); break;
 	}	
 }
 
@@ -116,6 +124,68 @@ void sil()
 }
 void yapilacaklar() 
 {
+	int i;
+	char line[50],gorev[50],tarih[10];
+	printf("Yapilacak is ----- Bitis tarihi\n");
+	FILE *dosya;
+	dosya = fopen("deneme.txt","r");
+	if(dosya==NULL)
+	{
+	printf("Dosya bulunamadi.!");	
+	}
+	else
+	{
+	
+	int c=0;
+	char ch = getc ( dosya );
+    int index = 0;
+    
+    while ( ch != EOF )
+	 {
+        if ( ch != '\n')
+		{
+            line[index++] = ch;
+        }
+		else
+		 {
+            line[index] = '\0';
+			
+			int a = strlen(line);
+			
+			if( (c % 2) == 0 )
+			{
+				for(i = 0; i <= a; i++)
+				{
+					*(gorev + i) = *(line + i);
+				}
+				printf("%s   ",gorev);
+				
+				for(i = 0; i <= a; i++)
+				{
+					*(gorev + i) = "\0";
+				}
+            }
+            else
+            {
+        		for(i = 0; i <= a; i++)
+				{
+					*(tarih + i) = *(line + i);
+				}
+				printf("%s  \n", tarih);
+				
+				for(i = 0; i <= a; i++)
+				{
+					*(tarih + i) = "\0";
+				}
+			}
+			c++;
+			index = 0;
+        }
+        ch = getc ( dosya );
+    }
+
+	
+	}
 	
 }
 void bitenler()
