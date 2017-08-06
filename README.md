@@ -2,6 +2,7 @@
 ===================
 
 Hasan Eren Keskin - @herenkeskin
+
 Burak Can Fazla   - @burakcanfazla
 
 Yapmamýz gereken, yapmayý istediðimiz ancak unuttuðumuz þeyleri not alabilebileceðimiz bir konsol uygulamasý.
