@@ -5,8 +5,10 @@
 			Burak Can Fazla		@burakcanfazla
 
 	Date: 06.08.2017
-	Description: Yapmamýz gereken, yapmayý istediðimiz ancak unuttuðumuz þeyleri
-			not alabilebileceðimiz bir konsol uygulamasý.
+	Description: Yapmamiz gereken, yapmayi istedigimiz ancak unuttugumuz seyleri
+			not alabilebilecegimiz bir konsol uygulamasi.
+			
+	Version: 0.1
 
 
 */ 
@@ -14,26 +16,13 @@
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
-
-/* Kullanýlan Fonksiyonlar */
-void baslik_degistir(char * baslik);
-void menu(void);
-void listele(void);
-void ekle(void);
-void sil(void);
-void yapilacaklar(void);
-void bitenler(void);
-void gecikenler(void);
-void yapildi_isaretle(void);
-void degistir(void);
-void arama_yap(void);
-
-// Dosya Isimleri
-const char dosya_adi[100] = "yapilacak.txt";
+#include <time.h>
+#include <Windows.h>
+#include "functions.h"
 
 /* To Do List Projesi */
 int main(void) {
-
+	
 	menu();
 	
 	_getch();
@@ -79,7 +68,7 @@ void menu(void) {
 
 }
 
-/* Kayýt Listeleme */
+/* Kayyt Listeleme */
 void listele(void) {
 
 	char * baslik = "Yapilacaklar ve Yapilanlar Listesi";
@@ -106,20 +95,20 @@ void listele(void) {
 	}	
 }
 
-/* Kayýt Ekleme */
+/* Kayyt Ekleme */
 void ekle(void) {
 	
 	char * baslik = "Ekleme Yapiliyor";
 	baslik_degistir(baslik);
-	 
+
 	FILE * dosya;
 	dosya = fopen(dosya_adi, "a");
-		
+
 	fflush(stdin);
-		
+
 	char * eklenecekPtr = (char * )malloc(100);
 	char * tarihPtr = (char * )malloc(10);
-	char cevap[5];
+	char * cevap = (char * )malloc(5);
 	
 	while(1) {
 		printf("Ne Eklenecek: "); 
@@ -133,14 +122,106 @@ void ekle(void) {
 			}
 		}
 		
-		printf("Ne zamana kadar yapilmasi gerek?  "); 
+		printf("Ne zamana kadar yapilmasi gerek? Format: Gun.Ay.Yil "); 
 		gets(tarihPtr);
-	
-		printf("\nYapilacak olan: %s -- %s\n\n", eklenecekPtr, tarihPtr);
+		
+		int *p;
+		p = parcalama(tarihPtr);
+		
+		/* Zaman Kontrolü */
+		SYSTEMTIME str_t;
+		GetSystemTime(&str_t);
+		
+		int kalanGun, kalanAy, kalanYil;
+		
+		kalanGun = 	p[0] - str_t.wDay; 
+		kalanAy = 	p[1] - str_t.wMonth; 
+		kalanYil = 	p[2] - str_t.wYear; 
+		
+		printf("%d - %d - %d\n", kalanGun, kalanAy, kalanYil);
+		
+		if( ((p[0] < 32) && (p[0] > 0)) && ((p[1] < 13) && (p[1] > 0)) ) {
 			
+			if( (kalanYil < 0) ){
+				
+				while(1){
+					
+					printf("Yil veriniz hatali\n");
+					printf("Lutfen gecerli bir tarih giriniz\n");
+					printf("Ne zamana kadar yapilmasi gerek? Format: Gun.Ay.Yil "); 
+					gets(tarihPtr);
+					
+					p = parcalama(tarihPtr);
+					kalanYil = 	p[2] - str_t.wYear;
+					
+					if(kalanYil >= 0){
+						break;
+					}
+				}
+				
+				p = parcalama(tarihPtr);
+				kalanYil 	= 	p[2] - str_t.wYear;
+				kalanAy 	= 	p[1] - str_t.wMonth;
+				
+			} else if( (kalanYil == 0) ){
+				
+				if( (kalanAy < 0) ) {
+					
+					while(1) {
+						
+						printf("Ay veriniz hatali\n");
+						printf("Lutfen gecerli bir tarih giriniz\n");
+						printf("Ne zamana kadar yapilmasi gerek? Format: Gun.Ay.Yil "); 
+						gets(tarihPtr);
+						
+						p = parcalama(tarihPtr);
+						kalanAy = 	p[1] - str_t.wMonth;
+						
+						if(kalanAy >= 0){
+							break;
+						}
+						
+					}
+					
+					p = parcalama(tarihPtr);
+					kalanAy 	= 	p[1] - str_t.wMonth;
+					kalanGun 	= 	p[0] - str_t.wDay;
+					
+				} else if( kalanAy == 0 ){
+					
+					if( (kalanGun < 0) )  {
+						
+						while(1) {
+							printf("Gun veriniz hatali\n");
+							printf("Lutfen gecerli bir tarih giriniz\n");
+							printf("Ne zamana kadar yapilmasi gerek? Format: Gun.Ay.Yil "); 
+							gets(tarihPtr);
+							
+							p = parcalama(tarihPtr);
+							kalanGun = 	p[0] - str_t.wDay; 
+							
+							if(kalanGun >= 0){
+								break;
+							}
+						}
+						
+					}
+					
+				}
+			}
+		} else {
+			system("cls");
+			printf("Hatali tarih girisi yapildi\n");
+			printf("Tekrar Deneyiniz\n");
+			printf("\n");
+			ekle();
+		}
+		
+		printf("\nYapilacak olan: %s -- %d.%d.%d\n\n", eklenecekPtr, p[0], p[1], p[2]);
+
 		fputs(eklenecekPtr, dosya);
 		fputs("\n", dosya);
-		fputs(tarihPtr, dosya);
+		fprintf(dosya, "%02d.%02d.%02d", p[0], p[1], p[2]);
 		fputs("\n", dosya);
 		
 		printf("Devam Etmek istiyor musunuz? E veya H: ");
@@ -156,6 +237,7 @@ void ekle(void) {
 	
 	free(eklenecekPtr);
 	free(tarihPtr);
+	free(cevap);
 	
 	fclose(dosya);
 	
@@ -164,7 +246,7 @@ void ekle(void) {
 
 }
 
-/* Kayýt Silme */
+/* Kayyt Silme */
 void sil(void) {
 
 	char * baslik = "Silme Yap";
@@ -178,7 +260,7 @@ void sil(void) {
 	
 }
 
-/* Yapýlacaklar Listesi */
+/* Yapylacaklar Listesi */
 void yapilacaklar(void){
 	
 	int i = 0, c = 0, x = 0, index = 0;
@@ -196,13 +278,13 @@ void yapilacaklar(void){
 	{
 		printf("   Yapilacaklar ------------------------------------- Bitis tarihi\n\n");
 		char karakter = getc ( dosya );
-	    
-	    while ( karakter != EOF )
+
+		while ( karakter != EOF )
 		{
-	        if ( karakter != '\n'){
-	            satir[index++] = karakter;
-	        } else {
-	            satir[index] = '\0';
+			if ( karakter != '\n'){
+				satir[index++] = karakter;
+			} else {
+				satir[index] = '\0';
 				
 				int a = strlen(satir);
 				
@@ -212,7 +294,7 @@ void yapilacaklar(void){
 						*(gorev + i) = *(satir + i);
 					}
 					
-					printf("%s",gorev);
+					printf("%s", gorev);
 					
 					for(i = 0; i <= a; i++){
 						*(gorev + i) = "\0";
@@ -222,29 +304,52 @@ void yapilacaklar(void){
 						printf(" ");
 					}
 					x++;
-	            } else {
-	        		for(i = 0; i <= a; i++){
+				} else {
+					for(i = 0; i <= a; i++){
 						*(tarih + i) = *(satir + i);
 					}
 					
-					printf("%s\n", tarih);
-					
+					printf("%s ----- ", tarih);
+					int *p;
+					int i, stra;
+
+					p = parcalama(tarih);
+					stra = strlen(&p);
+
+						/* Zaman Kontrolü */
+					SYSTEMTIME str_t;
+					GetSystemTime(&str_t);
+
+					int kalanGun, kalanAy, kalanYil;
+
+					kalanGun = 	p[0] - str_t.wDay; 
+					kalanAy = 	p[1] - str_t.wMonth; 
+					kalanYil = 	p[2] - str_t.wYear; 
+
+					if (kalanGun > 0){
+						kalanGun += (kalanAy * 30) + (kalanYil * 365);
+					} else {
+						kalanGun = (kalanAy * 30) + (kalanYil * 365);
+					} 
+
+					printf("Kalan gun sayisi: %d\n", kalanGun);
+
 					for(i = 0; i <= a; i++){
 						*(tarih + i) = "\0";
 					}
 				}
 				c++;
 				index = 0;
-	        }
-	        
-	        karakter = getc ( dosya );
-	    }
-	    
+			}
+
+			karakter = getc ( dosya );
+		}
+
 		int numara;
-	    	
-	    printf("\n\n-------------------------------------------------\n\n");
-	   	printf("0. Menu\n");
-	   	printf("1. Sil\n");
+
+		printf("\n\n-------------------------------------------------\n\n");
+		printf("0. Menu\n");
+		printf("1. Sil\n");
 		printf("2. Yapildi isaretle\n");
 		printf("3. Degistir\n");
 		
@@ -254,13 +359,13 @@ void yapilacaklar(void){
 		
 		switch(numara)
 		{
-			case 0: menu(); break;
+			case 0: system("cls"); menu(); break;
 			case 1: sil(); break;
 			case 2: yapildi_isaretle(); break;
 			case 3: degistir(); break;
-			default: menu(); break;
+			default: system("cls"); menu(); break;
 		}	
-	    
+
 	}
 }
 
@@ -274,12 +379,12 @@ void gecikenler(void){
 	
 }
 
-/* Yapýldý Olarak Ýþaretle Listesi */
+/* Yapyldy Olarak Y?aretle Listesi */
 void yapildi_isaretle(){
 	
 }
 
-/* Deðiþtir Listesi */
+/* De?i?tir Listesi */
 void degistir() {
 	
 }
@@ -301,4 +406,22 @@ void arama_yap() {
 	
 }
 
+/* Tarih Parçalama */
+int * parcalama(char * parcalanacak){
+	
+	int i = 0;
+	char * parcaliTarih = strtok (parcalanacak, ".");
+	char * stringTarih[3];
+	static int intTarih[3];
 
+	while (parcaliTarih != NULL){
+		stringTarih[i++] = parcaliTarih;
+		parcaliTarih = strtok (NULL, ".");
+	}
+
+	for (i = 0; i < 3; ++i) {
+		intTarih[i] = atoi(stringTarih[i]);
+	}
+	
+	return intTarih;
+}
