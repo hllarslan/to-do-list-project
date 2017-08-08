@@ -5,19 +5,19 @@ Hasan Eren Keskin - @herenkeskin
 
 Burak Can Fazla   - @burakcanfazla
 
-Yapmamız gereken, yapmayı istediğimiz ancak unuttuğumuz şeyleri not alabilebileceğimiz bir konsol uygulaması.
+YapmamÄ±z gereken, yapmayÄ± istediÄŸimiz ancak unuttuÄŸumuz ÅŸeyleri not alabilebileceÄŸimiz bir konsol uygulamasÄ±.
 
-Şu an için desteklenen modüller: 
+Åu an iÃ§in desteklenen modÃ¼ller: 
 ```sh
-:  Görev Ekleme
-:  Görev Listeleme
-:  Görev Bitiş Tarihi
+:  GÃ¶rev Ekleme
+:  GÃ¶rev Listeleme
+:  GÃ¶rev BitiÅŸ Tarihi
+:  GÃ¶revin ne kadar sÃ¼resi kaldÄ±? 
 ```
 ```sh
-Eklenecek olan modüller:
-: Biten Görev Kontrolü
-: Görev Silme
-: Görev Arama
-: Görevin ne kadar süresi kaldı? 
-: Görev Değiştirme
+Eklenecek olan modÃ¼ller:
+: Biten GÃ¶rev KontrolÃ¼
+: GÃ¶rev Silme
+: GÃ¶rev Arama
+: GÃ¶rev DeÄŸiÅŸtirme
 ```
