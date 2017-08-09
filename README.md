@@ -5,6 +5,8 @@ Hasan Eren Keskin - @herenkeskin
 
 Burak Can Fazla   - @burakcanfazla
 
+Halil Arslan      - @hllarslan
+
 Yapmamız gereken, yapmayı istediğimiz ancak unuttuğumuz şeyleri not alabilebileceğimiz bir konsol uygulaması.
 
 Şu an için desteklenen modüller: 
